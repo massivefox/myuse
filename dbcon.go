@@ -1,5 +1,4 @@
-package github.com/massivefox/dbcon/
-
+package github.com/massivefox/myuse
 import (
 	"context"
 	"crud/config"

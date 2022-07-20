@@ -1,4 +1,4 @@
-package github.com/massivefox/models
+package github.com/massivefox/myuse
 
 type CreateInput struct {
 	Id    string `json:"id"`

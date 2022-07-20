@@ -1,4 +1,4 @@
-package github.com/massivefox/handlers
+package github.com/massivefox/myuse
 
 import (
 	"crud/dbcon"
