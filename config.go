@@ -1,4 +1,4 @@
-package github.com\massivefox\myuse
+package myuse
 
 const (
 	// Timeout

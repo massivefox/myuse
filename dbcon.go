@@ -1,7 +1,7 @@
-package github.com/massivefox/myuse
+package myuse
+
 import (
 	"context"
-	"crud/config"
 	"fmt"
 	"log"
 	"time"
@@ -16,12 +16,12 @@ func GetConnection() (*mongo.Client, context.Context, context.CancelFunc) {
 		Password: "root",
 	}
 
-	connectionURI := fmt.Sprintln(config.ConnectURI)
+	connectionURI := fmt.Sprintln(ConnectURI)
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionURI).SetAuth(credential))
 	if err != nil {
 		log.Printf("Failed to create client: %v", err)
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), config.ConnectTimeout*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), ConnectTimeout*time.Second)
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Printf("Failed to connect to cluster: %v", err)

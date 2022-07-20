@@ -1,26 +1,24 @@
-package github.com/massivefox/myuse
+package myuse
 
 import (
-	"crud/dbcon"
-	"crud/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-var infoList []models.CreateInput
+var infoList []CreateInput
 
 func ReadInfo(c *gin.Context) {
-	client, ctx, cancel := dbcon.GetConnection()
+	client, ctx, cancel := GetConnection()
 	collectionlist := client.Database("data").Collection("info")
 	defer client.Disconnect(ctx)
 	defer cancel()
 	filter := bson.D{{}}
 	cursor, _ := collectionlist.Find(ctx, filter)
-	infoList = []models.CreateInput{}
+	infoList = []CreateInput{}
 	for cursor.Next(ctx) {
-		input := models.CreateInput{}
+		input := CreateInput{}
 		err := cursor.Decode(&input)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -36,11 +34,11 @@ func ReadInfo(c *gin.Context) {
 	})
 }
 func ReadOneInfo(c *gin.Context) {
-	client, ctx, cancel := dbcon.GetConnection()
+	client, ctx, cancel := GetConnection()
 	collectionlist := client.Database("data").Collection("info")
 	defer client.Disconnect(ctx)
 	defer cancel()
-	infoList := models.CreateInput{}
+	infoList := CreateInput{}
 	id := c.Param("id")
 	err := collectionlist.FindOne(ctx, bson.M{"id": id}).Decode(&infoList)
 	if err != nil {
@@ -56,9 +54,9 @@ func ReadOneInfo(c *gin.Context) {
 	})
 }
 func CreateInfo(c *gin.Context) {
-	client, ctx, cancel := dbcon.GetConnection()
+	client, ctx, cancel := GetConnection()
 	collectionlist := client.Database("data").Collection("info")
-	input := models.CreateInput{}
+	input := CreateInput{}
 	defer client.Disconnect(ctx)
 	defer cancel()
 
@@ -81,12 +79,12 @@ func CreateInfo(c *gin.Context) {
 }
 
 func UpdateInfo(c *gin.Context) {
-	client, ctx, cancel := dbcon.GetConnection()
+	client, ctx, cancel := GetConnection()
 	defer client.Disconnect(ctx)
 	defer cancel()
 	collectionlist := client.Database("data").Collection("info")
 
-	input := models.UpdateInput{}
+	input := UpdateInput{}
 
 	id := c.Param("id")
 	if err := c.ShouldBind(&input); err != nil {
@@ -111,7 +109,7 @@ func UpdateInfo(c *gin.Context) {
 }
 
 func DeleteInfo(c *gin.Context) {
-	client, ctx, cancel := dbcon.GetConnection()
+	client, ctx, cancel := GetConnection()
 	defer client.Disconnect(ctx)
 	defer cancel()
 	collectionlist := client.Database("data").Collection("info")
